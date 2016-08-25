@@ -2,32 +2,37 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Phaedrus</title>
+    <title>Phaedrus | Stats</title>
 
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" type="text/css" href="skeleton.css">
     <link rel="stylesheet" type="text/css" href="app.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="github-calendar.css" />
   </head>
 
   <body>
 
     <div id="container">
-      <div id="splash" class="row">
-        <div class="six columns">
-          <img id="profile-pic" src="profile-pic.JPG" />
-        </div>
 
-        <div id="bio" class="six columns">
-          <h5>I'm Phaedrus.</h5>
-          <p>I like peanut butter and refactoring legacy code.</p>
-          <button class="button-primary">Say hello</button>
+      <div id="stats-wrapper" class="row">
+        <h6>Git Activity</h6>
+        <div class="calendar">
+          Loading data
         </div>
+      </div>
+
+      <div id="footer" class="row">
+        <h6>Copyright &copy; 2016 Symposium Labs</h6>
       </div>
     <div 
   
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="github-calendar.min.js"></script>
+    <script>
+      GitHubCalendar(".calendar", "phrazzld", {global_stats: false});
+    </script>
   </body>
 
 </html>
