@@ -12,8 +12,7 @@ html, body {
   width: 100%;
   height: 100%;
   text-align: center;
-  /*background-image: url("greyzz.png");*/
-  background-image: url("honeycomb.jpg");
+  background-image: url("../images/honeycomb.jpg");
 }
 
 #splash {
@@ -51,15 +50,6 @@ html, body {
 
 .contact-icon:hover {
   background-color: #eee;
-}
-
-div.contrib-legend, div.contrib-footer {
-  display: none;
-}
-
-.calendar {
-  min-height: 130px !important;
-  border: none !important;
 }
 
 .icon-link {
