@@ -31,15 +31,15 @@ html, body {
   height: 200px;
 }
 
-#links {
-  padding-top: 10px;
-}
-
-.linked-image-wrapper {
+a {
   text-decoration: none;
 }
 
-.linked-image {
+#link-block {
+  padding-top: 10px;
+}
+
+#link-block img {
   width: 30px;
   padding-right: 20px;
 }
