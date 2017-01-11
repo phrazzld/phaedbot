@@ -15,20 +15,13 @@ html, body {
   background-image: url("../images/concrete_seamless.png");
 }
 
-#splash {
-  padding-top: 5%;
-}
-
-#profile-pic-wrapper {
-  padding-left: 50px;
-}
-
 #profile-pic {
   background-size: 100%;
   border-radius: 200px;
   border: 1px solid #999;
   width: 200px;
   height: 200px;
+  margin-top: 50px;
 }
 
 a {
