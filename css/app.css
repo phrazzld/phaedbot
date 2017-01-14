@@ -34,5 +34,10 @@ a {
 
 #link-block img {
   width: 30px;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#link-block img#timeismoney {
+  width: 33px;
 }
