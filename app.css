@@ -12,7 +12,7 @@ html, body {
   width: 100%;
   height: 100%;
   text-align: center;
-  background-image: url("images/polaroid.png");
+  background-image: url("./images/polaroid.png");
 }
 
 #profile-pic {
