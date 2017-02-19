@@ -1,0 +1,66 @@
+html, body {
+  min-height: 100%;
+}
+
+html {
+  position: relative;
+}
+
+body {
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
+#name {
+  font-weight: 200;
+}
+
+#zinger a {
+  text-decoration: none;
+}
+
+.light {
+  font-weight: 200;
+}
+
+.heavy {
+  font-weight: 400;
+}
+
+.heading h3 {
+  font-weight: 400;
+  margin-top: 10px; 
+}
+
+.achievement {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.achievement img {
+  max-height: 100px;
+  float: left;
+  margin-right: 20px;
+}
+
+.achievement h4 {
+  color: #337ab7;
+}
+
+.contact-icon {
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 30px;
+}
+
+#site-info {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  padding-bottom: 20px;
+  font-size: 0.8em;
+}
+
+#site-info a {
+  text-decoration: none;
+}
