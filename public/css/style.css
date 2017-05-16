@@ -1,0 +1,74 @@
+html, body {
+    min-height: 100%;
+}
+
+html {
+    position: relative;
+}
+
+body {
+    margin-top: 30px;
+    margin-bottom: 60px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+form {
+  text-align: center;
+}
+
+#name {
+    font-weight: 200;
+}
+
+#chat {
+  margin-bottom: 20px;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.response span.author {
+  color: #3361FF;
+}
+
+span.author {
+  font-weight: 600;
+  margin-right: 15px;
+  padding-left: 15px;
+}
+
+#message-contents {
+  width: 300px;
+  display: inline-block;
+}
+
+#send-message {
+  margin-bottom: 3px;
+}
+
+#brand {
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+#brand a {
+    text-decoration: none;
+}
+
+.contact-icon {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 30px;
+}
+
+#site-info {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 0.8em;
+}
+
+#site-info a {
+    text-decoration: none;
+}
