@@ -25,18 +25,13 @@ var processRequest = function (query) {
     var token = "Bearer " + configs.CLIENT_ACCESS_TOKEN
     var request = $.ajax({
       data: {
-        "v": "20150910",
         "query": query,
-        "lang": "en",
-        "sessionId": configs.SESSION_ID
+        "sessionId": configs.SESSION_ID,
+        "token": token
       },
       dataType: "json",
-      headers: { "Authorization": token },
-      error: function (data, textStatus, jqXHR) {
-        console.log("Error! Could not communicate with API.AI")
-      },
-      type: "GET",
-      url: "https://api.api.ai/v1/query"
+      type: "POST",
+      url: "/message"
     })
     request.done(function (msg) {
       writeMessage(query, msg.result.fulfillment.speech)

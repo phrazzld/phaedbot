@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "randomstring": "^1.1.5"
+    "express-sanitizer": "^1.0.2",
+    "randomstring": "^1.1.5",
+    "request": "^2.81.0"
   }
 }
