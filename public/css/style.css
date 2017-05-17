@@ -22,9 +22,14 @@ form {
 }
 
 #chat {
+  overflow: hidden;
   margin-bottom: 20px;
   max-height: 300px;
   overflow-y: scroll;
+}
+
+.response {
+  display: none;
 }
 
 .response span.author {

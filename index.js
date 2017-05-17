@@ -44,16 +44,14 @@ app.get("/env", (req, res) => {
 
 app.post("/message", (req, res) => {
   // sanitize user input
-  // build and submit GET request to API.AI
   req.body.sanitizedQuery = req.sanitize(req.body.query)
   var url = "https://api.api.ai/v1/query?v=" + req.body.v + "&query=" + req.body.sanitizedQuery + "&lang=en&sessionId=" + req.body.sessionId
   var opts = {
     "url": url,
     "headers": { "Authorization": req.body.token }
   }
+  // build and submit GET request to API.AI
   request(opts, function (error, response, body) {
-    console.log(error)
-    console.log(response.statusCode)
     res.send(body)
   })
 })
