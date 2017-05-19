@@ -31,11 +31,9 @@ var processRequest = function (query) {
       url: "/message"
     })
     request.done(function (message) {
+      writeBotMessage(message)
       if (message.result.action === "getBitcoinPrice") {
-        writeBotMessage(message)
         setTimeout(getBitcoinPrice, 1000)
-      } else {
-        writeBotMessage(message)
       }
     })
   })
@@ -90,6 +88,9 @@ var writeUserMessage = function (query) {
 }
 
 $(document).ready(function () {
+  // Phaedbot should start the conversation
+  setTimeout(writeMessage, 1000, "Hey there! I'm Phaedbot, a chatbot made by Phaedrus to add some pizzazz to his profile site.")
+  setTimeout(writeMessage, 2500, "You can ask me anything, but I'm best at talking about Phaedrus.")
   $("#message-form").submit(function (e) {
     e.preventDefault()
     var query = $("#message-contents").val()
