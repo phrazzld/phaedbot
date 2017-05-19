@@ -34,23 +34,36 @@ app.use(function (req, res, next) {
   next()
 })
 
+// render homepage
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html")
+})
+
+// handle initial welcome message
+app.post("/welcome", (req, res) => {
+  var url = "https://api.api.ai/v1/query?v=" + req.body.v + "&e=" + req.body.e + "&lang=end&sessionId=" + process.env.SESSION_ID
+  buildRequest(url, res)
 })
 
 app.post("/message", (req, res) => {
   // sanitize user input
   req.body.sanitizedQuery = req.sanitize(req.body.query)
   var url = "https://api.api.ai/v1/query?v=" + req.body.v + "&query=" + req.body.sanitizedQuery + "&lang=en&sessionId=" + process.env.SESSION_ID
-  var opts = {
-    "url": url,
-    "headers": { "Authorization": "Bearer " + process.env.CLIENT_ACCESS_TOKEN }
-  }
-  // build and submit GET request to API.AI
-  request(opts, function (error, response, body) {
-    res.send(body)
-  })
+  buildRequest(url, res)
 })
 
 app.listen(port)
 console.log("port " + port + " goes 'whirrrrrrr...'")
+
+// build request to API.AI
+var buildRequest = function (url, res) {
+  // define request options
+  var opts = {
+    "url": url,
+    "headers": { "Authorization": "Bearer " + process.env.CLIENT_ACCESS_TOKEN }
+  }
+  // send the request
+  request(opts, function (error, response, body) {
+    res.send(body)
+  })
+}

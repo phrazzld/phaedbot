@@ -1,3 +1,4 @@
+var v = "20150930"
 // scroll the chat as messages are added
 var scrollChat = function () {
   var chat = $("#chat")
@@ -7,7 +8,7 @@ var scrollChat = function () {
 // handle user queries
 var processRequest = function (query) {
   var request = $.ajax({
-    data: { "query": query, "v": "20150930" },
+    data: { "query": query, "v": v },
     dataType: "json",
     type: "POST",
     url: "/message"
@@ -16,6 +17,19 @@ var processRequest = function (query) {
     writeBotMessage(message)
     if (message.result.action === "getBitcoinPrice")
       setTimeout(getBitcoinPrice, 1000)
+  })
+}
+
+// welcome logic
+var howdy = function () {
+  var request = $.ajax({
+    data: { "e": "WELCOME", "v": v },
+    dataType: "json",
+    type: "POST",
+    url: "/welcome"
+  })
+  request.done(function (message) {
+    writeBotMessage(message)
   })
 }
 
@@ -82,8 +96,7 @@ var writeMessage = function (message, fromUser) {
 // page lifecycle
 $(document).ready(function () {
   // Phaedbot starts the conversation
-  setTimeout(writeMessage, 1000, "Hey there! I'm Phaedbot, a chatbot made by Phaedrus to add some pizzazz to his profile site.", false)
-  setTimeout(writeMessage, 2500, "You can ask me anything, but I'm best at talking about Phaedrus.", false)
+  howdy()
 
   // process messages on form submit
   $("#message-form").submit(function (e) {
