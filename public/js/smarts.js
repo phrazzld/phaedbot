@@ -31,8 +31,27 @@ var processRequest = function (query) {
       url: "/message"
     })
     request.done(function (message) {
-      writeBotMessage(message)
+      if (message.result.action === "getBitcoinPrice") {
+        writeBotMessage(message)
+        setTimeout(getBitcoinPrice, 1000)
+      } else {
+        writeBotMessage(message)
+      }
     })
+  })
+}
+
+var getBitcoinPrice = function () {
+  var btcRequest = $.ajax({
+    type: "GET",
+    url: "http://api.coindesk.com/v1/bpi/currentprice.json",
+    error: function (data, textStatus, jqXHR) {
+      console.log("Error! Could not fetch access token.")
+    }
+  })
+  btcRequest.done(function (message) {
+    var btcMsg = "$" + JSON.parse(message).bpi.USD.rate
+    writeMessage(btcMsg)
   })
 }
 
@@ -69,7 +88,6 @@ var writeUserMessage = function (query) {
   $("#chat").append(requestDiv)
   $("#message-contents").val("")
 }
-
 
 $(document).ready(function () {
   $("#message-form").submit(function (e) {
