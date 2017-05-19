@@ -1,37 +1,25 @@
+// scroll the chat as messages are added
 var scrollChat = function () {
   var chat = $("#chat")
   chat.animate({ scrollTop: chat.prop("scrollHeight") }, 2000)
 }
 
+// handle user queries
 var processRequest = function (query) {
-  var envRequest = $.ajax({
-    error: function (data, textStatus, jqXHR) {
-      console.log("Error! Could not fetch access token")
-    },
-    type: "GET",
-    url: "/env"
+  var request = $.ajax({
+    data: { "query": query, "v": "20150930" },
+    dataType: "json",
+    type: "POST",
+    url: "/message"
   })
-  envRequest.done(function (configs) {
-    var token = "Bearer " + configs.CLIENT_ACCESS_TOKEN
-    var request = $.ajax({
-      data: {
-        "query": query,
-        "sessionId": configs.SESSION_ID,
-        "token": token
-      },
-      dataType: "json",
-      type: "POST",
-      url: "/message"
-    })
-    request.done(function (message) {
-      writeBotMessage(message)
-      if (message.result.action === "getBitcoinPrice") {
-        setTimeout(getBitcoinPrice, 1000)
-      }
-    })
+  request.done(function (message) {
+    writeBotMessage(message)
+    if (message.result.action === "getBitcoinPrice")
+      setTimeout(getBitcoinPrice, 1000)
   })
 }
 
+// fetch the current Bitcoin price from the CoinDesk API
 var getBitcoinPrice = function () {
   var btcRequest = $.ajax({
     type: "GET",
@@ -46,6 +34,7 @@ var getBitcoinPrice = function () {
   })
 }
 
+// is Phaedbot writing one message or a chain?
 var writeBotMessage = function (message) {
   var response = message.result.fulfillment
   if (response.messages.length === 1)
@@ -57,6 +46,7 @@ var writeBotMessage = function (message) {
   }
 }
 
+// write a message to the chat
 var writeMessage = function (message, fromUser) {
   var wrapperDiv = document.createElement("div")
   wrapperDiv.className = fromUser ? "request row" : "response row"

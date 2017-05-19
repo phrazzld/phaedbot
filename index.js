@@ -38,17 +38,13 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html")
 })
 
-app.get("/env", (req, res) => {
-  res.send(process.env)
-})
-
 app.post("/message", (req, res) => {
   // sanitize user input
   req.body.sanitizedQuery = req.sanitize(req.body.query)
-  var url = "https://api.api.ai/v1/query?v=" + req.body.v + "&query=" + req.body.sanitizedQuery + "&lang=en&sessionId=" + req.body.sessionId
+  var url = "https://api.api.ai/v1/query?v=" + req.body.v + "&query=" + req.body.sanitizedQuery + "&lang=en&sessionId=" + process.env.SESSION_ID
   var opts = {
     "url": url,
-    "headers": { "Authorization": req.body.token }
+    "headers": { "Authorization": "Bearer " + process.env.CLIENT_ACCESS_TOKEN }
   }
   // build and submit GET request to API.AI
   request(opts, function (error, response, body) {
