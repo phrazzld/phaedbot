@@ -30,33 +30,44 @@ var processRequest = function (query) {
       type: "POST",
       url: "/message"
     })
-    request.done(function (msg) {
-      writeMessage(msg.result.fulfillment.speech)
+    request.done(function (message) {
+      writeBotMessage(message)
     })
   })
 }
 
+var writeBotMessage = function (message) {
+  var response = message.result.fulfillment
+  if (response.messages.length === 1)
+    writeMessage(response.speech)
+  else {
+    for (var i = 0; i < response.messages.length; i++) {
+      setTimeout(writeMessage, 1500 * i+1, response.messages[i].speech)
+    }
+  }
+}
+
 var writeUserMessage = function (query) {
-    var requestDiv = document.createElement("div")
-    requestDiv.className = "request row"
-    var authorDiv = document.createElement("div")
-    authorDiv.className = "col-xs-3 col-sm-2 col-sm-offset-3 col-md-1 col-md-offset-4"
-    var authorSpan = document.createElement("span")
-    authorSpan.className = "author"
-    var author = document.createTextNode("You")
-    authorSpan.appendChild(author)
-    authorDiv.appendChild(authorSpan)
-    var msgDiv = document.createElement("div")
-    msgDiv.className = "col-xs-9 col-sm-6 col-md-5"
-    var msgP = document.createElement("p")
-    msgP.className = "message"
-    var msg = document.createTextNode(query)
-    msgP.appendChild(msg)
-    msgDiv.appendChild(msgP)
-    requestDiv.appendChild(authorDiv)
-    requestDiv.appendChild(msgDiv)
-    $("#chat").append(requestDiv)
-    $("#message-contents").val("")
+  var requestDiv = document.createElement("div")
+  requestDiv.className = "request row"
+  var authorDiv = document.createElement("div")
+  authorDiv.className = "col-xs-3 col-sm-2 col-sm-offset-3 col-md-1 col-md-offset-4"
+  var authorSpan = document.createElement("span")
+  authorSpan.className = "author"
+  var author = document.createTextNode("You")
+  authorSpan.appendChild(author)
+  authorDiv.appendChild(authorSpan)
+  var msgDiv = document.createElement("div")
+  msgDiv.className = "col-xs-9 col-sm-6 col-md-5"
+  var msgP = document.createElement("p")
+  msgP.className = "message"
+  var msg = document.createTextNode(query)
+  msgP.appendChild(msg)
+  msgDiv.appendChild(msgP)
+  requestDiv.appendChild(authorDiv)
+  requestDiv.appendChild(msgDiv)
+  $("#chat").append(requestDiv)
+  $("#message-contents").val("")
 }
 
 
