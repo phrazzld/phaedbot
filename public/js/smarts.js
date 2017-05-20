@@ -14,10 +14,31 @@ var processRequest = function (query) {
     url: "/message"
   })
   request.done(function (message) {
-    writeBotMessage(message)
+    if (message.result.fulfillment.speech !== "")
+      writeBotMessage(message)
     if (message.result.action === "getBitcoinPrice")
       setTimeout(getBitcoinPrice, 1000)
+    else if (message.result.action === "getCurrentAge")
+      setTimeout(getCurrentAge, 1000)
   })
+}
+
+// calculate Phaedrus's current age
+var getCurrentAge = function () {
+  var birthday = new Date("08/30/1992")
+  var today = new Date()
+  var age = Math.floor((today - birthday) / (365.25 * 24 * 60 * 60 * 1000))
+  var nextAge = age + 1
+  var monthsTillBirthday = birthday.getMonth() - today.getMonth()
+  var ageMessage = "He is " + age
+  if (monthsTillBirthday >= 0 && monthsTillBirthday < 4) {
+    ageMessage += ", turning " + nextAge + " on August 30"
+  }
+  if (monthsTillBirthday === 0) {
+    ageMessage += " (so soon!)"
+  }
+  ageMessage += "."
+  writeMessage(ageMessage, false)
 }
 
 // welcome logic
