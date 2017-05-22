@@ -22,7 +22,9 @@ var processRequest = function (query) {
     } else if (message.result.action === "getCurrentAge") {
       setTimeout(getCurrentAge, 1500)
     } else if (message.result.action === "getProjectDetails") {
-      setTimeout(getProjectDetails, 1500, message.result.parameters.Project)
+      setTimeout(getDetails, 1500, message.result.parameters.Project)
+    } else if (message.result.action === "getWorkDetails") {
+      setTimeout(getDetails, 1500, message.result.parameters.Work)
     }
   })
 }
@@ -58,9 +60,9 @@ var howdy = function () {
   })
 }
 
-// trigger event for specific project details
-var getProjectDetails = function (project) {
-  var event = project + "-details"
+// trigger event for specific details
+var getDetails = function (exp) {
+  var event = exp + "-details"
   var request = $.ajax({
     data: { "v": v, "e": event },
     dataType: "json",
@@ -120,7 +122,6 @@ var writeMessage = function (message, fromUser) {
   wrapperDiv.appendChild(authorDiv)
   wrapperDiv.appendChild(messageDiv)
   $("#chat").append(wrapperDiv)
-  setTimeout(scrollChat, 1000)
   if (fromUser) {
     $("#message-contents").val("")
   } else {
