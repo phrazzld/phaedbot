@@ -17,9 +17,9 @@ var processRequest = function (query) {
     if (message.result.fulfillment.speech !== "")
       writeBotMessage(message)
     if (message.result.action === "getBitcoinPrice")
-      setTimeout(getBitcoinPrice, 1000)
+      setTimeout(getBitcoinPrice, 1500)
     else if (message.result.action === "getCurrentAge")
-      setTimeout(getCurrentAge, 1000)
+      setTimeout(getCurrentAge, 1500)
   })
 }
 
@@ -76,7 +76,7 @@ var writeBotMessage = function (message) {
     writeMessage(response.speech, false)
   else {
     for (var i = 0; i < response.messages.length; i++) {
-      setTimeout(writeMessage, 1500 * i+1, response.messages[i].speech, false)
+      setTimeout(writeMessage, 2500 * i+1, response.messages[i].speech, false)
     }
   }
 }
@@ -93,7 +93,7 @@ var writeMessage = function (message, fromUser) {
   authorSpan.appendChild(author)
   authorDiv.appendChild(authorSpan)
   var messageDiv = document.createElement("div")
-  messageDiv.className = "col-xs-9 col-sm-6 col-md-5"
+  messageDiv.className = "col-xs-9 col-sm-6 col-md-4"
   var messageP = document.createElement("p")
   messageP.className = "message"
   var messageText = document.createTextNode(message)
@@ -108,8 +108,8 @@ var writeMessage = function (message, fromUser) {
     $("#chat div.response").last()
       .css("opacity", 0)
       .slideDown(500)
-      .animate({ opacity: 1 }, { queue: false }, { duration: 2000 })
-    setTimeout(scrollChat, 500)
+      .animate({ opacity: 1 }, { queue: false }, { duration: 1500 })
+    setTimeout(scrollChat, 1000)
   }
 }
 
