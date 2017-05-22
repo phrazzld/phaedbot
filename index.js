@@ -39,8 +39,8 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html")
 })
 
-// handle initial welcome message
-app.post("/welcome", (req, res) => {
+// handle event requests
+app.post("/event-handler", (req, res) => {
   var url = "https://api.api.ai/v1/query?v=" + req.body.v + "&e=" + req.body.e + "&lang=end&sessionId=" + process.env.SESSION_ID
   buildRequest(url, res)
 })

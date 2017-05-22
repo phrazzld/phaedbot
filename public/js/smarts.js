@@ -14,12 +14,16 @@ var processRequest = function (query) {
     url: "/message"
   })
   request.done(function (message) {
-    if (message.result.fulfillment.speech !== "")
+    if (message.result.fulfillment.speech !== "") {
       writeBotMessage(message)
-    if (message.result.action === "getBitcoinPrice")
+    }
+    if (message.result.action === "getBitcoinPrice") {
       setTimeout(getBitcoinPrice, 1500)
-    else if (message.result.action === "getCurrentAge")
+    } else if (message.result.action === "getCurrentAge") {
       setTimeout(getCurrentAge, 1500)
+    } else if (message.result.action === "getProjectDetails") {
+      setTimeout(getProjectDetails, 1500, message.result.parameters.Project)
+    }
   })
 }
 
@@ -47,7 +51,21 @@ var howdy = function () {
     data: { "e": "WELCOME", "v": v },
     dataType: "json",
     type: "POST",
-    url: "/welcome"
+    url: "/event-handler"
+  })
+  request.done(function (message) {
+    writeBotMessage(message)
+  })
+}
+
+// trigger event for specific project details
+var getProjectDetails = function (project) {
+  var event = project + "-details"
+  var request = $.ajax({
+    data: { "v": v, "e": event },
+    dataType: "json",
+    type: "POST",
+    url: "/event-handler"
   })
   request.done(function (message) {
     writeBotMessage(message)
@@ -76,7 +94,7 @@ var writeBotMessage = function (message) {
     writeMessage(response.speech, false)
   else {
     for (var i = 0; i < response.messages.length; i++) {
-      setTimeout(writeMessage, 2500 * i+1, response.messages[i].speech, false)
+      setTimeout(writeMessage, 2000 * i+1, response.messages[i].speech, false)
     }
   }
 }
@@ -102,6 +120,7 @@ var writeMessage = function (message, fromUser) {
   wrapperDiv.appendChild(authorDiv)
   wrapperDiv.appendChild(messageDiv)
   $("#chat").append(wrapperDiv)
+  setTimeout(scrollChat, 1000)
   if (fromUser) {
     $("#message-contents").val("")
   } else {
@@ -109,8 +128,8 @@ var writeMessage = function (message, fromUser) {
       .css("opacity", 0)
       .slideDown(500)
       .animate({ opacity: 1 }, { queue: false }, { duration: 1500 })
-    setTimeout(scrollChat, 1000)
   }
+  setTimeout(scrollChat, 1000)
 }
 
 
