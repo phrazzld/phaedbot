@@ -116,9 +116,10 @@ var writeMessage = function (message, fromUser) {
 
 // page lifecycle
 $(document).ready(function () {
+  // focus on user input element
+  $("#message-contents").focus()
   // Phaedbot starts the conversation
   howdy()
-
   // process messages on form submit
   $("#message-form").submit(function (e) {
     e.preventDefault()
