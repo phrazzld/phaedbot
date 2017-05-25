@@ -25,6 +25,8 @@ var processRequest = function (query) {
       setTimeout(getDetails, 1500, message.result.parameters.Project)
     } else if (message.result.action === "getWorkDetails") {
       setTimeout(getDetails, 1500, message.result.parameters.Work)
+    } else if (message.result.action === "getResume") {
+      writeResumeMessage()
     }
   })
 }
@@ -100,6 +102,34 @@ var writeBotMessage = function (message) {
     }
   }
 }
+
+// write message with link to resume
+var writeResumeMessage = function () {
+  var wrapperDiv = document.createElement("div")
+  wrapperDiv.className = "response row"
+  var authorDiv = document.createElement("div")
+  authorDiv.className = "col-xs-3 col-sm-2 col-sm-offset-3 col-md-1 col-md-offset-4"
+  var authorSpan = document.createElement("span")
+  authorSpan.className = "author"
+  var author = document.createTextNode("Phaedbot")
+  authorSpan.appendChild(author)
+  authorDiv.appendChild(authorSpan)
+  var messageDiv = document.createElement("div")
+  messageDiv.className = "col-xs-9 col-sm-6 col-md-4"
+  var messageP = document.createElement("p")
+  messageP.className = "message"
+  messageP.innerHTML = "You can see Phaedrus's resume by clicking the PDF icon at the top of the page, or by clicking <a href='../images/resume.pdf' target='_blank'>this link</a>."
+  messageDiv.appendChild(messageP)
+  wrapperDiv.appendChild(authorDiv)
+  wrapperDiv.appendChild(messageDiv)
+  $("#chat").append(wrapperDiv)
+  $("#chat div.response").last()
+    .css("opacity", 0)
+    .slideDown(500)
+    .animate({ opacity: 1 }, { queue: false }, { duration: 1500 })
+  setTimeout(scrollChat, 1000)
+}
+
 
 // write a message to the chat
 var writeMessage = function (message, fromUser) {

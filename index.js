@@ -5,9 +5,14 @@ var randomstring = require('randomstring')
 var sanitizer = require('express-sanitizer')
 var bodyParser = require('body-parser')
 var request = require('request')
+var favicon = require('serve-favicon')
+var path = require('path')
 
 // use static files
 app.use(express.static('public'))
+
+// favicon
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
 
 // parse POSTs
 app.use(bodyParser.json())
