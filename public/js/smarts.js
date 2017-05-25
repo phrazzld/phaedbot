@@ -61,8 +61,13 @@ var getCurrentAge = function () {
 
 // welcome logic
 var howdy = function () {
+  requestEvent("WELCOME")
+}
+
+// send event request
+var requestEvent = function (event) {
   var request = $.ajax({
-    data: { "e": "WELCOME", "v": v },
+    data: { "v": v, "e": event },
     dataType: "json",
     type: "POST",
     url: "/event-handler"
@@ -75,15 +80,7 @@ var howdy = function () {
 // trigger event for specific details
 var getDetails = function (exp) {
   var event = exp + "-details"
-  var request = $.ajax({
-    data: { "v": v, "e": event },
-    dataType: "json",
-    type: "POST",
-    url: "/event-handler"
-  })
-  request.done(function (message) {
-    writeBotMessage(message)
-  })
+  requestEvent(event)
 }
 
 // loop over array of items, make -details calls for each
@@ -99,7 +96,7 @@ var expandAllDetails = function (items) {
       if (items.length > 0)
         setTimeout(expandAllDetails, 3500*numMessages, items)
       else
-        setTimeout(writeMessage, 3500*numMessages, "Now Phaedrus is studying artificial intelligence to build high-impact applications.", false)
+        setTimeout(requestEvent, 3500*numMessages, "upto")
     }
   })
 }
