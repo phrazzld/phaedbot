@@ -1,4 +1,6 @@
 var v = "20150930"
+var workHistory = ["TEC", "ClassWave", "RingRevenue", "FarmPlus", "ASAP"]
+var projectHistory = ["TimeIsMoney", "Insights", "FeedingTube", "PrimordialOoze", "TrapperKeeper", "TIMO"]
 // scroll the chat as messages are added
 var scrollChat = function () {
   var chat = $("#chat")
@@ -27,6 +29,14 @@ var processRequest = function (query) {
       setTimeout(getDetails, 1500, message.result.parameters.Work)
     } else if (message.result.action === "getResume") {
       writeResumeMessage()
+    } else if (message.result.action === "expandWork") {
+      // confirm request
+      writeMessage("Sure thing!", false)
+      // hit each work details endpoint
+      setTimeout(expandAllDetails, 1000, workHistory)
+    } else if (message.result.action === "expandProjects") {
+      writeMessage("Alright!", false)
+      setTimeout(expandAllDetails, 1000, projectHistory)
     }
   })
 }
@@ -76,13 +86,31 @@ var getDetails = function (exp) {
   })
 }
 
+// loop over array of items, make -details calls for each
+var expandAllDetails = function (items) {
+  var request = $.ajax({
+    url: "/event-handler",
+    type: "POST",
+    dataType: "json",
+    data: { "v": v, "e": items.splice(0,1) + "-details" },
+    success: function (data, status, xhr) {
+      var numMessages = data.result.fulfillment.messages.length
+      writeBotMessage(data)
+      if (items.length > 0)
+        setTimeout(expandAllDetails, 3500*numMessages, items)
+      else
+        setTimeout(writeMessage, 3500*numMessages, "Now Phaedrus is studying artificial intelligence to build high-impact applications.", false)
+    }
+  })
+}
+
 // fetch the current Bitcoin price from the CoinDesk API
 var getBitcoinPrice = function () {
   var btcRequest = $.ajax({
     type: "GET",
     url: "http://api.coindesk.com/v1/bpi/currentprice.json",
     error: function (data, textStatus, jqXHR) {
-      console.log("Error! Could not fetch access token.")
+      console.log("Error! Could not fetch Coindesk access token.")
     }
   })
   btcRequest.done(function (message) {
@@ -98,7 +126,7 @@ var writeBotMessage = function (message) {
     writeMessage(response.speech, false)
   else {
     for (var i = 0; i < response.messages.length; i++) {
-      setTimeout(writeMessage, 2000 * i+1, response.messages[i].speech, false)
+      setTimeout(writeMessage, 3500 * i+1, response.messages[i].speech, false)
     }
   }
 }
