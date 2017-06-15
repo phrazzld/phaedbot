@@ -123,7 +123,7 @@ var writeBotMessage = function (message) {
     writeMessage(response.speech, false)
   else {
     for (var i = 0; i < response.messages.length; i++) {
-      setTimeout(writeMessage, 3500 * i+1, response.messages[i].speech, false)
+      setTimeout(writeMessage, 1500 * i+1, response.messages[i].speech, false)
     }
   }
 }
