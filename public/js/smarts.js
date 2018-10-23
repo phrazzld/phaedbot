@@ -191,6 +191,8 @@ var writeMessage = function (message, fromUser) {
 
 // page lifecycle
 $(document).ready(function () {
+  // Set copyright year
+  $("#copyright").innerHTML = "Copyright \u00A9 " + Date.getYear() + " Phaedrus"
   // focus on user input element
   $("#message-contents").focus()
   // Phaedbot starts the conversation
