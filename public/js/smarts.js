@@ -1,6 +1,6 @@
 var v = "20150930"
-var workHistory = ["RingRevenue", "FarmPlus", "ASAP"]
-var projectHistory = ["TimeIsMoney", "Insights", "FeedingTube", "TIMO"]
+var workHistory = ["RingRevenue", "FarmPlus", "ASAP", "BettermentLabs", "Novacoast"]
+var projectHistory = ["TimeIsMoney", "Insights", "FeedingTube", "TIMO", "Rubberduck"]
 // scroll the chat as messages are added
 var scrollChat = function () {
   var chat = $("#chat")
