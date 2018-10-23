@@ -105,7 +105,7 @@ var expandAllDetails = function (items) {
 var getBitcoinPrice = function () {
   var btcRequest = $.ajax({
     type: "GET",
-    url: "http://api.coindesk.com/v1/bpi/currentprice.json",
+    url: "https://api.coindesk.com/v1/bpi/currentprice.json",
     error: function (data, textStatus, jqXHR) {
       console.log("Error! Could not fetch Coindesk access token.")
     }
