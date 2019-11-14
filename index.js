@@ -1,6 +1,7 @@
 // base setup
 var express = require('express');
 var app = express();
+require('dotenv').config();
 var randomstring = require('randomstring');
 var sanitizer = require('express-sanitizer');
 var bodyParser = require('body-parser');
@@ -88,9 +89,6 @@ app.post('/message', (req, res) => {
   buildRequest(url, res);
 });
 
-app.listen(port);
-console.log('port ' + port + " goes 'whirrrrrrr...'");
-
 // build request to API.AI
 var buildRequest = function(url, res) {
   // define request options
@@ -103,3 +101,6 @@ var buildRequest = function(url, res) {
     res.send(body);
   });
 };
+
+app.listen(port);
+console.log('port ' + port + " goes 'whirrrrrrr...'");
