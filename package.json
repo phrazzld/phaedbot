@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "dotenv": "^8.2.0",
     "express": "^4.15.2",
     "express-sanitizer": "^1.0.2",
+    "nodemon": "^1.19.4",
     "path": "^0.12.7",
     "randomstring": "^1.1.5",
     "request": "^2.81.0",
