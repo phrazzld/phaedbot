@@ -12,6 +12,7 @@ const favicon = require('serve-favicon');
 const path = require('path');
 const config = require('@root/config');
 const agent = require('@root/agent');
+const controller = require('@controllers/main');
 
 // Always wear a helmet
 app.use(helmet());
@@ -45,6 +46,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(sanitizer());
 
+// Set views
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 // use static files
 app.use(express.static(path.join(__dirname, 'public')));
 // favicon
@@ -62,34 +66,8 @@ if (config.isProd) {
 }
 
 // render homepage
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
-app.post('/message', async (req, res) => {
-  console.log('POST /message');
-  try {
-    const agentResponse = await agent.query(req.body.message);
-    res
-      .status(200)
-      .json({agentResponse: agentResponse.queryResult.fulfillmentText});
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err);
-  }
-});
-
-app.post('/event', async (req, res) => {
-  console.log('POST /event');
-  try {
-    const agentResponse = await agent.triggerEvent(req.body.eventName);
-    res
-      .status(200)
-      .json({agentResponse: agentResponse.queryResult.fulfillmentText});
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err);
-  }
-});
+app.get('/', controller.getHome);
+app.post('/message', controller.postMessage);
+app.post('/event', controller.postEvent);
 
 module.exports = app;

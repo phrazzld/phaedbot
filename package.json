@@ -26,6 +26,7 @@
     "supertest": "^3.4.2",
     "uuid": "^3.3.3",
     "body-parser": "^1.17.1",
+    "ejs": "^2.7.1",
     "dotenv": "^8.2.0",
     "express": "^4.15.2",
     "express-sanitizer": "^1.0.2",
@@ -41,6 +42,8 @@
   },
   "_moduleAliases": {
     "@root": "src",
+    "@controllers": "src/controllers",
+    "@routes": "src/routes",
     "@test": "test"
   }
 }
