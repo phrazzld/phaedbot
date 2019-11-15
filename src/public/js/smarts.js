@@ -72,9 +72,10 @@ const getCurrentAge = function() {
 
 // welcome logic
 const howdy = function() {
-  console.log('howdy() called');
-  //processRequest('Hello');
-  triggerEvent('Welcome');
+  //triggerEvent('Welcome');
+  writeBotMessage(
+    `Hey there! I can't really talk right now--busy doing some maintenance--but come back soon!`,
+  );
 };
 
 // send event request
@@ -214,17 +215,20 @@ const writeMessage = function(message, fromUser) {
 $(document).ready(function() {
   // Set copyright year
   const year = new Date().getFullYear();
-  document.getElementById('copyright').innerHTML =
+  $('#copyright').innerHTML =
+    //document.getElementById('copyright').innerHTML =
     'Copyright \u00A9 ' + year + ' Phaedrus';
   // focus on user input element
   $('#message-contents').focus();
   // Phaedbot starts the conversation
   howdy();
   // process messages on form submit
+  /*
   $('#message-form').submit(function(e) {
     e.preventDefault();
     const query = $('#message-contents').val();
     writeMessage(query, true);
     processRequest(query);
   });
+  */
 });
