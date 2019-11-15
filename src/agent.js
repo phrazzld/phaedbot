@@ -35,6 +35,24 @@ const query = async (query, projectId = config.projectId) => {
   return response;
 };
 
+const triggerEvent = async (eventName, projectId = config.projectId) => {
+  const client = new dialogflow.v2.SessionsClient();
+  const formattedSession = generateNewSession(client, projectId);
+  const request = {
+    session: formattedSession,
+    queryInput: {
+      event: {
+        name: eventName,
+        languageCode: 'en-US',
+      },
+    },
+  };
+  const responses = await client.detectIntent(request);
+  const response = responses[0];
+  return response;
+};
+
 module.exports = {
   query,
+  triggerEvent,
 };

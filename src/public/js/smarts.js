@@ -1,20 +1,31 @@
 // scroll the chat as messages are added
-var scrollChat = function() {
-  var chat = $('#chat');
+const scrollChat = function() {
+  const chat = $('#chat');
   chat.animate({scrollTop: chat.prop('scrollHeight')}, 2000);
 };
 
+const triggerEvent = eventName => {
+  const req = $.ajax({
+    data: {eventName: eventName},
+    dataType: 'json',
+    type: 'POST',
+    url: '/event',
+  });
+  req.done(res => {
+    const message = res.agentResponse;
+    writeBotMessage(message);
+  });
+};
+
 // handle user queries
-var processRequest = function(query) {
-  var request = $.ajax({
+const processRequest = query => {
+  const req = $.ajax({
     data: {message: query},
     dataType: 'json',
     type: 'POST',
     url: '/message',
   });
-  request.done(function(res) {
-    console.log('request.done, res:');
-    console.log(res);
+  req.done(function(res) {
     const message = res.agentResponse;
     writeBotMessage(message);
     /*
@@ -42,13 +53,13 @@ var processRequest = function(query) {
 };
 
 // calculate Phaedrus's current age
-var getCurrentAge = function() {
-  var birthday = new Date('08/30/1992');
-  var today = new Date();
-  var age = Math.floor((today - birthday) / (365.25 * 24 * 60 * 60 * 1000));
-  var nextAge = age + 1;
-  var monthsTillBirthday = birthday.getMonth() - today.getMonth();
-  var ageMessage = 'He is ' + age;
+const getCurrentAge = function() {
+  const birthday = new Date('08/30/1992');
+  const today = new Date();
+  const age = Math.floor((today - birthday) / (365.25 * 24 * 60 * 60 * 1000));
+  const nextAge = age + 1;
+  const monthsTillBirthday = birthday.getMonth() - today.getMonth();
+  let ageMessage = 'He is ' + age;
   if (monthsTillBirthday >= 0 && monthsTillBirthday < 4) {
     ageMessage += ', turning ' + nextAge + ' on August 30';
   }
@@ -60,15 +71,15 @@ var getCurrentAge = function() {
 };
 
 // welcome logic
-var howdy = function() {
+const howdy = function() {
   console.log('howdy() called');
-  processRequest('Say something funny');
-  //requestEvent('WELCOME');
+  //processRequest('Hello');
+  triggerEvent('Welcome');
 };
 
 // send event request
-var requestEvent = function(event) {
-  var request = $.ajax({
+const requestEvent = function(event) {
+  const request = $.ajax({
     data: {v: v, e: event},
     dataType: 'json',
     type: 'POST',
@@ -80,20 +91,20 @@ var requestEvent = function(event) {
 };
 
 // trigger event for specific details
-var getDetails = function(exp) {
-  var event = exp + '-details';
+const getDetails = function(exp) {
+  const event = exp + '-details';
   requestEvent(event);
 };
 
 // loop over array of items, make -details calls for each
-var expandAllDetails = function(items) {
-  var request = $.ajax({
+const expandAllDetails = function(items) {
+  const request = $.ajax({
     url: '/event-handler',
     type: 'POST',
     dataType: 'json',
     data: {v: v, e: items.splice(0, 1) + '-details'},
     success: function(data, status, xhr) {
-      var numMessages = data.result.fulfillment.messages.length;
+      const numMessages = data.result.fulfillment.messages.length;
       writeBotMessage(data);
       if (items.length > 0)
         setTimeout(expandAllDetails, 3500 * numMessages, items);
@@ -103,8 +114,8 @@ var expandAllDetails = function(items) {
 };
 
 // fetch the current Bitcoin price from the CoinDesk API
-var getBitcoinPrice = function() {
-  var btcRequest = $.ajax({
+const getBitcoinPrice = function() {
+  const btcRequest = $.ajax({
     type: 'GET',
     url: 'https://api.coindesk.com/v1/bpi/currentprice.json',
     error: function(data, textStatus, jqXHR) {
@@ -112,18 +123,18 @@ var getBitcoinPrice = function() {
     },
   });
   btcRequest.done(function(message) {
-    var btcMsg = '$' + JSON.parse(message).bpi.USD.rate;
+    const btcMsg = '$' + JSON.parse(message).bpi.USD.rate;
     writeMessage(btcMsg, false);
   });
 };
 
 // is Phaedbot writing one message or a chain?
-var writeBotMessage = function(message) {
+const writeBotMessage = function(message) {
   writeMessage(message, false);
   /*
   if (response.messages.length === 1) writeMessage(response.speech, false);
   else {
-    for (var i = 0; i < response.messages.length; i++) {
+    for (const i = 0; i < response.messages.length; i++) {
       setTimeout(
         writeMessage,
         1500 * i + 1,
@@ -136,20 +147,20 @@ var writeBotMessage = function(message) {
 };
 
 // write message with link to resume
-var writeResumeMessage = function() {
-  var wrapperDiv = document.createElement('div');
+const writeResumeMessage = function() {
+  const wrapperDiv = document.createElement('div');
   wrapperDiv.className = 'response row';
-  var authorDiv = document.createElement('div');
+  const authorDiv = document.createElement('div');
   authorDiv.className =
     'col-xs-3 col-sm-2 col-sm-offset-3 col-md-1 col-md-offset-4';
-  var authorSpan = document.createElement('span');
+  const authorSpan = document.createElement('span');
   authorSpan.className = 'author';
-  var author = document.createTextNode('Phaedbot');
+  const author = document.createTextNode('Phaedbot');
   authorSpan.appendChild(author);
   authorDiv.appendChild(authorSpan);
-  var messageDiv = document.createElement('div');
+  const messageDiv = document.createElement('div');
   messageDiv.className = 'col-xs-9 col-sm-6 col-md-4';
-  var messageP = document.createElement('p');
+  const messageP = document.createElement('p');
   messageP.className = 'message';
   messageP.innerHTML =
     "You can see Phaedrus's resume by clicking the PDF icon at the top of the page, or by clicking <a href='../images/resume.pdf' target='_blank'>this link</a>.";
@@ -166,22 +177,22 @@ var writeResumeMessage = function() {
 };
 
 // write a message to the chat
-var writeMessage = function(message, fromUser) {
-  var wrapperDiv = document.createElement('div');
+const writeMessage = function(message, fromUser) {
+  const wrapperDiv = document.createElement('div');
   wrapperDiv.className = fromUser ? 'request row' : 'response row';
-  var authorDiv = document.createElement('div');
+  const authorDiv = document.createElement('div');
   authorDiv.className =
     'col-xs-3 col-sm-2 col-sm-offset-3 col-md-1 col-md-offset-4';
-  var authorSpan = document.createElement('span');
+  const authorSpan = document.createElement('span');
   authorSpan.className = 'author';
-  var author = document.createTextNode(fromUser ? 'You' : 'Phaedbot');
+  const author = document.createTextNode(fromUser ? 'You' : 'Phaedbot');
   authorSpan.appendChild(author);
   authorDiv.appendChild(authorSpan);
-  var messageDiv = document.createElement('div');
+  const messageDiv = document.createElement('div');
   messageDiv.className = 'col-xs-9 col-sm-6 col-md-4';
-  var messageP = document.createElement('p');
+  const messageP = document.createElement('p');
   messageP.className = 'message';
-  var messageText = document.createTextNode(message);
+  const messageText = document.createTextNode(message);
   messageP.appendChild(messageText);
   messageDiv.appendChild(messageP);
   wrapperDiv.appendChild(authorDiv);
@@ -202,7 +213,7 @@ var writeMessage = function(message, fromUser) {
 // page lifecycle
 $(document).ready(function() {
   // Set copyright year
-  var year = new Date().getFullYear();
+  const year = new Date().getFullYear();
   document.getElementById('copyright').innerHTML =
     'Copyright \u00A9 ' + year + ' Phaedrus';
   // focus on user input element
@@ -212,7 +223,7 @@ $(document).ready(function() {
   // process messages on form submit
   $('#message-form').submit(function(e) {
     e.preventDefault();
-    var query = $('#message-contents').val();
+    const query = $('#message-contents').val();
     writeMessage(query, true);
     processRequest(query);
   });

@@ -68,11 +68,21 @@ app.get('/', (req, res) => {
 
 app.post('/message', async (req, res) => {
   console.log('POST /message');
-  console.log(`req.body.message: ${req.body.message}`);
   try {
     const agentResponse = await agent.query(req.body.message);
-    console.log('agentResponse');
-    console.log(agentResponse);
+    res
+      .status(200)
+      .json({agentResponse: agentResponse.queryResult.fulfillmentText});
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+});
+
+app.post('/event', async (req, res) => {
+  console.log('POST /event');
+  try {
+    const agentResponse = await agent.triggerEvent(req.body.eventName);
     res
       .status(200)
       .json({agentResponse: agentResponse.queryResult.fulfillmentText});
