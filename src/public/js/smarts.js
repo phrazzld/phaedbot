@@ -7,15 +7,17 @@ var scrollChat = function() {
 // handle user queries
 var processRequest = function(query) {
   var request = $.ajax({
-    data: {query: query, v: v},
+    data: {message: query},
     dataType: 'json',
     type: 'POST',
     url: '/message',
   });
-  request.done(function(message) {
-    if (message.result.fulfillment.speech !== '') {
-      writeBotMessage(message);
-    }
+  request.done(function(res) {
+    console.log('request.done, res:');
+    console.log(res);
+    const message = res.agentResponse;
+    writeBotMessage(message);
+    /*
     if (message.result.action === 'getBitcoinPrice') {
       setTimeout(getBitcoinPrice, 1500);
     } else if (message.result.action === 'getCurrentAge') {
@@ -35,6 +37,7 @@ var processRequest = function(query) {
       writeMessage('Alright!', false);
       setTimeout(expandAllDetails, 1000, projectHistory);
     }
+    */
   });
 };
 
@@ -58,7 +61,9 @@ var getCurrentAge = function() {
 
 // welcome logic
 var howdy = function() {
-  requestEvent('WELCOME');
+  console.log('howdy() called');
+  processRequest('Say something funny');
+  //requestEvent('WELCOME');
 };
 
 // send event request
@@ -114,7 +119,8 @@ var getBitcoinPrice = function() {
 
 // is Phaedbot writing one message or a chain?
 var writeBotMessage = function(message) {
-  var response = message.result.fulfillment;
+  writeMessage(message, false);
+  /*
   if (response.messages.length === 1) writeMessage(response.speech, false);
   else {
     for (var i = 0; i < response.messages.length; i++) {
@@ -126,6 +132,7 @@ var writeBotMessage = function(message) {
       );
     }
   }
+  */
 };
 
 // write message with link to resume

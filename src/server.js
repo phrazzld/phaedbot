@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const favicon = require('serve-favicon');
 const path = require('path');
+const agent = require('@root/agent');
 
 // use static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,6 +39,22 @@ if (config.isProd) {
 // render homepage
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
+});
+
+app.post('/message', async (req, res) => {
+  console.log('POST /message');
+  console.log(`req.body.message: ${req.body.message}`);
+  try {
+    const agentResponse = await agent.query(req.body.message);
+    console.log('agentResponse');
+    console.log(agentResponse);
+    res
+      .status(200)
+      .json({agentResponse: agentResponse.queryResult.fulfillmentText});
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
 });
 
 app.listen(config.port, err => {
