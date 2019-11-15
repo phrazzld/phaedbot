@@ -1,16 +1,32 @@
 {
-  "name": "phaed",
+  "name": "phaedbot",
   "version": "1.0.0",
-  "description": "Profile site",
-  "main": "index.js",
+  "description": "Professional site and chatbot for Phaedrus Raznikov.",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "build": "npm run clean && babel -d ./build ./src -s",
+    "start": "npm run build && nodemon ./src/server.js",
+    "clean": "rm -rf ./build && mkdir build",
+    "heroku-postbuild": "npm install && npm run build",
+    "preinstall": "node ./gcpSetup.js",
+    "test": "mocha"
   },
-  "author": "",
+  "author": "Phaedrus Raznikov",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/firestore": "^2.5.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "bunyan": "^1.8.12",
+    "cookie-parser": "^1.4.3",
+    "dialogflow": "^0.12.2",
+    "fs": "0.0.1-security",
+    "helmet": "^3.15.1",
+    "module-alias": "^2.1.0",
+    "supertest": "^3.4.2",
+    "uuid": "^3.3.3",
     "body-parser": "^1.17.1",
+    "ejs": "^2.7.1",
     "dotenv": "^8.2.0",
     "express": "^4.15.2",
     "express-sanitizer": "^1.0.2",
@@ -19,5 +35,15 @@
     "randomstring": "^1.1.5",
     "request": "^2.81.0",
     "serve-favicon": "^2.4.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  },
+  "_moduleAliases": {
+    "@root": "src",
+    "@controllers": "src/controllers",
+    "@routes": "src/routes",
+    "@test": "test"
   }
 }
