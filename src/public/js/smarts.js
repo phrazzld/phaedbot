@@ -28,46 +28,7 @@ const processRequest = query => {
   req.done(function(res) {
     const message = res.agentResponse;
     writeBotMessage(message);
-    /*
-    if (message.result.action === 'getBitcoinPrice') {
-      setTimeout(getBitcoinPrice, 1500);
-    } else if (message.result.action === 'getCurrentAge') {
-      setTimeout(getCurrentAge, 1500);
-    } else if (message.result.action === 'getProjectDetails') {
-      setTimeout(getDetails, 1500, message.result.parameters.Project);
-    } else if (message.result.action === 'getWorkDetails') {
-      setTimeout(getDetails, 1500, message.result.parameters.Work);
-    } else if (message.result.action === 'getResume') {
-      writeResumeMessage();
-    } else if (message.result.action === 'expandWork') {
-      // confirm request
-      writeMessage('Sure thing!', false);
-      // hit each work details endpoint
-      setTimeout(expandAllDetails, 1000, workHistory);
-    } else if (message.result.action === 'expandProjects') {
-      writeMessage('Alright!', false);
-      setTimeout(expandAllDetails, 1000, projectHistory);
-    }
-    */
   });
-};
-
-// calculate Phaedrus's current age
-const getCurrentAge = function() {
-  const birthday = new Date('08/30/1992');
-  const today = new Date();
-  const age = Math.floor((today - birthday) / (365.25 * 24 * 60 * 60 * 1000));
-  const nextAge = age + 1;
-  const monthsTillBirthday = birthday.getMonth() - today.getMonth();
-  let ageMessage = 'He is ' + age;
-  if (monthsTillBirthday >= 0 && monthsTillBirthday < 4) {
-    ageMessage += ', turning ' + nextAge + ' on August 30';
-  }
-  if (monthsTillBirthday === 0) {
-    ageMessage += ' (so soon!)';
-  }
-  ageMessage += '.';
-  writeMessage(ageMessage, false);
 };
 
 // welcome logic
@@ -88,29 +49,6 @@ const requestEvent = function(event) {
   });
   request.done(function(message) {
     writeBotMessage(message);
-  });
-};
-
-// trigger event for specific details
-const getDetails = function(exp) {
-  const event = exp + '-details';
-  requestEvent(event);
-};
-
-// loop over array of items, make -details calls for each
-const expandAllDetails = function(items) {
-  const request = $.ajax({
-    url: '/event-handler',
-    type: 'POST',
-    dataType: 'json',
-    data: {v: v, e: items.splice(0, 1) + '-details'},
-    success: function(data, status, xhr) {
-      const numMessages = data.result.fulfillment.messages.length;
-      writeBotMessage(data);
-      if (items.length > 0)
-        setTimeout(expandAllDetails, 3500 * numMessages, items);
-      else setTimeout(requestEvent, 3500 * numMessages, 'upto');
-    },
   });
 };
 
@@ -223,12 +161,10 @@ $(document).ready(function() {
   // Phaedbot starts the conversation
   howdy();
   // process messages on form submit
-  /*
   $('#message-form').submit(function(e) {
     e.preventDefault();
     const query = $('#message-contents').val();
     writeMessage(query, true);
     processRequest(query);
   });
-  */
 });

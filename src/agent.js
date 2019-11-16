@@ -3,6 +3,7 @@
 const config = require('@root/config');
 const dialogflow = require('dialogflow');
 const uuid = require('uuid');
+const intents = require('@root/intents');
 
 const generateSessionId = () => {
   return uuid.v4();
@@ -52,7 +53,20 @@ const triggerEvent = async (eventName, projectId = config.projectId) => {
   return response;
 };
 
+const initIntents = async (projectId = config.projectId) => {
+  try {
+    const intentsClient = new dialogflow.IntentsClient();
+    const agentPath = intentsClient.projectAgentPath(projectId);
+    intents.forEach(intent => {
+      intentsClient.createIntent({parent: agentPath, intent: intent});
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 module.exports = {
   query,
   triggerEvent,
+  initIntents,
 };
